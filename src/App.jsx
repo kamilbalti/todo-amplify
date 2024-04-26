@@ -6,11 +6,14 @@ import { createTodo, deleteTodo, updateTodo } from "../mutations";
 import { listTodos } from "../queries";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+// new
+import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
 
 const initialState = { name: "", description: "" };
 const client = generateClient();
 
-const App = () => {
+const App = ({ signOut, user }) => {
   const [formState, setFormState] = useState(initialState);
   const [todos, setTodos] = useState([]);
   const [editInd, setEditInd] = useState(false);
@@ -105,8 +108,28 @@ const App = () => {
     e.preventDefault();
     editInd ? updateTodoFunc() : addTodo();
   };
+  const email = user?.signInDetails?.loginId;
+  const name =
+    email?.indexOf(".") < email?.indexOf("@")
+      ? email?.split(".")[0]
+      : //  + " " + email?.split("@")[0]?.split(".")[1]
+        email?.split("@")[0];
+  // console.log("User: ", email?.indexOf("."));
   return (
     <form style={styles.container} onSubmit={submit}>
+      <Heading
+        style={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+        level={1}
+      >
+        Hello {name}
+      </Heading>
+      <Button onClick={signOut} style={styles.button}>
+        Sign out
+      </Button>
       <h2>Amplify Todo</h2>
       <input
         onChange={(event) => setInput("name", event.target.value)}
@@ -192,4 +215,4 @@ const styles = {
   },
 };
 
-export default App;
+export default withAuthenticator(App);

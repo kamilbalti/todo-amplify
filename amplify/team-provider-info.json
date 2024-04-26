@@ -20,6 +20,9 @@
           "appId": "d1chn4bnrcwtou",
           "type": "manual"
         }
+      },
+      "auth": {
+        "reactamplifiedb3a945e6": {}
       }
     }
   }
