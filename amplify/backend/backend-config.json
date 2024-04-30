@@ -7,7 +7,9 @@
           "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+              "apiKeyExpirationDate": "2024-05-03T11:27:39.155Z",
+              "apiKeyExpirationDays": 3,
+              "description": ""
             },
             "authenticationType": "API_KEY"
           }
@@ -68,6 +70,12 @@
           "resourceName": "amplifyhosting"
         }
       ]
+    }
+  },
+  "storage": {
+    "amplifyTodo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

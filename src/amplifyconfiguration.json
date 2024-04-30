@@ -26,5 +26,12 @@
   },
   "aws_cognito_verification_mechanisms": [
     "EMAIL"
+  ],
+  "aws_dynamodb_all_tables_region": "ap-southeast-1",
+  "aws_dynamodb_table_schemas": [
+    {
+      "tableName": "amplifyTodo-dev",
+      "region": "ap-southeast-1"
+    }
   ]
 }

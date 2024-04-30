@@ -1,0 +1,14 @@
+{
+  "resourceName": "amplifyTodo",
+  "tableName": "amplifyTodo",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "updatedAt",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

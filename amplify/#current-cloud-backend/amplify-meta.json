@@ -22,7 +22,9 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+              "apiKeyExpirationDays": 3,
+              "apiKeyExpirationDate": "2024-05-03T11:27:39.155Z",
+              "description": ""
             }
           },
           "additionalAuthenticationProviders": []
@@ -35,8 +37,8 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactamplified-dev-61c60-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apireactamplified"
       },
-      "lastPushTimeStamp": "2024-04-26T13:20:08.692Z",
-      "lastPushDirHash": "lEHiZZ74bWLqqS85dd2rspKadJA="
+      "lastPushTimeStamp": "2024-04-30T12:28:16.330Z",
+      "lastPushDirHash": "LvfvcgiJzOKgoXYfcu82o804Rgs="
     }
   },
   "hosting": {
@@ -48,7 +50,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactamplified-dev-61c60-deployment/amplify-cfn-templates/hosting/amplifyhosting-template.json",
         "logicalId": "hostingamplifyhosting"
       },
-      "lastPushTimeStamp": "2024-04-26T13:20:08.695Z",
+      "lastPushTimeStamp": "2024-04-30T12:28:17.768Z",
       "output": {},
       "lastPushDirHash": "Whx3dGwiAQs/o/LN+SAcXbZoYF0="
     }
@@ -83,7 +85,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactamplified-dev-61c60-deployment/amplify-cfn-templates/auth/reactamplifiedb3a945e6-cloudformation-template.json",
         "logicalId": "authreactamplifiedb3a945e6"
       },
-      "lastPushTimeStamp": "2024-04-26T13:20:10.213Z",
+      "lastPushTimeStamp": "2024-04-30T12:28:16.349Z",
       "output": {
         "UserPoolId": "ap-southeast-1_rZ4BGQziu",
         "AppClientIDWeb": "sjbvai8onpjht9onk96ica53t",
@@ -94,6 +96,28 @@
         "UserPoolName": "reactamplifiedb3a945e6_userpool_b3a945e6"
       },
       "lastPushDirHash": "5cdc72RtgtXOfXEMgARADc5l31I="
+    }
+  },
+  "storage": {
+    "amplifyTodo": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactamplified-dev-61c60-deployment/amplify-cfn-templates/storage/amplifyTodo-cloudformation-template.json",
+        "logicalId": "storageamplifyTodo"
+      },
+      "lastPushTimeStamp": "2024-04-30T12:28:16.358Z",
+      "output": {
+        "PartitionKeyName": "id",
+        "SortKeyName": "updatedAt",
+        "SortKeyType": "S",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:dynamodb:ap-southeast-1:182502766709:table/amplifyTodo-dev",
+        "StreamArn": "arn:aws:dynamodb:ap-southeast-1:182502766709:table/amplifyTodo-dev/stream/2024-04-30T11:51:57.888",
+        "PartitionKeyType": "S",
+        "Name": "amplifyTodo-dev"
+      },
+      "lastPushDirHash": "PUbnhz5zMde5ftXMIdtbCaHScSA="
     }
   }
 }

@@ -15,14 +15,17 @@
       "api": {
         "reactamplified": {}
       },
+      "auth": {
+        "reactamplifiedb3a945e6": {}
+      },
+      "storage": {
+        "amplifyTodo": {}
+      },
       "hosting": {
         "amplifyhosting": {
           "appId": "d1chn4bnrcwtou",
           "type": "manual"
         }
-      },
-      "auth": {
-        "reactamplifiedb3a945e6": {}
       }
     }
   }

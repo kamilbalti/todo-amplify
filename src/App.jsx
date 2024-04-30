@@ -1,17 +1,37 @@
 import { useEffect, useState } from "react";
-
 import { generateClient } from "aws-amplify/api";
+import { graphqlOperation } from "@aws-amplify/api-graphql";
 
 import { createTodo, deleteTodo, updateTodo } from "../mutations";
+// import { onCreateTodo, onDeleteTodo, onUpdateTodo } from "../subscriptions";
 import { listTodos } from "../queries";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import * as subscriptions from "../subscriptions";
+
 // new
 import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 
 const initialState = { name: "", description: "" };
 const client = generateClient();
+// const subscription = (subFunc, funcName) => {
+//   return client.graphql(graphqlOperation(subFunc)).subscribe({
+//     next: (todoData) => {
+//       const newTodo = todoData.data[funcName];
+//       const { id, name, description } = newTodo;
+//       const data = {
+//         id,
+//         name,
+//         description,
+//       };
+//     },
+//     error: (error) => {
+//       console.error("Subscription error:", error);
+//       fetchTodos();
+//     },
+//   });
+// };
 
 const App = ({ signOut, user }) => {
   const [formState, setFormState] = useState(initialState);
@@ -20,6 +40,9 @@ const App = ({ signOut, user }) => {
 
   useEffect(() => {
     fetchTodos();
+    // subscription(onCreateTodo, "onCreateTodo");
+    // subscription(onDeleteTodo, "onDeleteTodo");
+    // subscription(onUpdateTodo, "onUpdateTodo");
   }, []);
 
   function setInput(key, value) {
@@ -35,30 +58,53 @@ const App = ({ signOut, user }) => {
         query: listTodos,
       });
       const todos = todoData.data.listTodos.items;
+      console.log("Todos: ", todos);
       setTodos(todos);
     } catch (err) {
       console.log("error fetching todos");
     }
   }
+  const createSub = () =>
+    client.graphql({ query: subscriptions.onCreateTodo }).subscribe();
+  const updateSub = () =>
+    client.graphql({ query: subscriptions.onUpdateTodo }).subscribe();
+
+  // Subscribe to deletion of Todo
+  const deleteSub = () =>
+    client.graphql({ query: subscriptions.onDeleteTodo }).subscribe();
+  useEffect(() => {
+    // fetchTodos();
+    console.log("fetch the data now: ");
+    // createSub.unsubscribe();
+    // updateSub.unsubscribe();
+    // deleteSub.unsubscribe();
+  }, [createSub, updateSub, deleteSub]);
 
   async function addTodo() {
+    // subscription(onCreateTodo, "onCreateTodo");
+    // const createSub =
+    // console.log("Todos: ", todos);
+    // console.log("CreateSub: ", createSub);
+
     try {
       if (!formState.name || !formState.description) return;
       const todo = { ...formState };
-      setTodos([...todos, todo]);
-      setFormState(initialState);
       await client.graphql({
         query: createTodo,
         variables: {
           input: todo,
         },
       });
+      await fetchTodos();
+      setFormState(initialState);
     } catch (err) {
+      fetchTodos();
       console.log("error creating todo:", err);
     }
   }
 
   async function updateTodoFunc() {
+    // subscription(onUpdateTodo, "onUpdateTodo");
     try {
       if (!formState.name || !formState.description) return;
       const todo = { ...formState, id: todos[editInd - 1].id };
@@ -66,24 +112,25 @@ const App = ({ signOut, user }) => {
       updatedTodo[editInd - 1].name = formState?.name;
       updatedTodo[editInd - 1].description = formState?.description;
       setEditInd(false);
-      setTodos(updatedTodo);
-      setFormState(initialState);
       await client.graphql({
         query: updateTodo,
         variables: {
           input: todo,
         },
       });
+      await fetchTodos();
+      setFormState(initialState);
     } catch (err) {
+      fetchTodos();
       console.log("error udpating todo:", err);
     }
   }
 
   async function deleteTodoFunc(ind) {
+    // subscription(onDeleteTodo, "onDeleteTodo");
     if (ind === editInd - 1) setBothInput({ name: "", description: "" });
     try {
       let tempData = [...todos];
-      setTodos((prev) => prev?.filter((_, index) => index !== ind));
       const selectedData = tempData[ind];
       const { id, description } = selectedData;
       const todo = { id };
@@ -93,8 +140,10 @@ const App = ({ signOut, user }) => {
           input: todo,
         },
       });
+      await fetchTodos();
     } catch (err) {
-      console.log("error creating todo:", err);
+      await fetchTodos();
+      console.log("error deleting todo:", err);
     }
   }
 
@@ -111,10 +160,8 @@ const App = ({ signOut, user }) => {
   const email = user?.signInDetails?.loginId;
   const name =
     email?.indexOf(".") < email?.indexOf("@")
-      ? email?.split(".")[0]
-      : //  + " " + email?.split("@")[0]?.split(".")[1]
-        email?.split("@")[0];
-  // console.log("User: ", email?.indexOf("."));
+      ? email?.split(".")[0] + " " + email?.split("@")[0]?.split(".")[1]
+      : email?.split("@")[0];
   return (
     <form style={styles.container} onSubmit={submit}>
       <Heading

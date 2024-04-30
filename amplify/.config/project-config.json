@@ -7,8 +7,8 @@
     "config": {
       "SourceDir": "src",
       "DistributionDir": "dist",
-      "BuildCommand": "build",
-      "StartCommand": "start",
+      "BuildCommand": "vite build",
+      "StartCommand": "npm run dev",
       "ServerlessContainers": true
     }
   },
